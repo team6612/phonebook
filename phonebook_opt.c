@@ -6,11 +6,24 @@
 entry *findName(char lastName[], entry *pHead)
 {
     /* TODO: implement */
+    while (pHead != NULL) {
+        if (strcasecmp(lastName, pHead->lastName) == 0)
+            return pHead;
+        pHead = pHead->pNext;
+    }
     return NULL;
 }
 
 entry *append(char lastName[], entry *e)
 {
     /* TODO: implement */
-    return NULL;
+    /* allocate memory for the new entry and put lastName */
+    e->pNext = (entry *) malloc(sizeof(entry));
+    e = e->pNext;
+    strcpy(e->lastName, lastName);
+    /* Because we won't put any detail data for now, comment it to save memory */
+    // e->pDetail = (detail *) malloc(sizeof(detail));
+    e->pNext = NULL;
+
+    return e;
 }
