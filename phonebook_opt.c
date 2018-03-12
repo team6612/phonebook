@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "phonebook_opt.h"
 
@@ -14,11 +15,11 @@ entry *findName(char lastName[], entry *pHead)
     return NULL;
 }
 
-entry *append(char lastName[], entry *e)
+entry *append(char lastName[], entry *e, mpool *pool)
 {
-    /* TODO: implement */
+    /* TODO: implement mem pool */
     /* allocate memory for the new entry and put lastName */
-    e->pNext = (entry *) malloc(sizeof(entry));
+    e->pNext = (entry *) pool_alloc(pool, sizeof(entry));
     e = e->pNext;
     strcpy(e->lastName, lastName);
     /* Because we won't put any detail data for now, comment it to save memory */
@@ -26,4 +27,30 @@ entry *append(char lastName[], entry *e)
     e->pNext = NULL;
 
     return e;
+}
+
+mpool *pool_create(size_t size)
+{
+    mpool *p = (mpool *) malloc(sizeof(mpool));
+    p->head = p->next = (char *) malloc(size);
+    p->tail = p->head + size;
+
+    return p;
+}
+
+void *pool_alloc(mpool *p, size_t size)
+{
+    if (p->tail - p->next < size)
+        return NULL;
+
+    void *m = (void *) p->next;
+    p->next += size;
+
+    return m;
+}
+
+void pool_free(mpool *p)
+{
+    free(p->head);
+    free(p);
 }

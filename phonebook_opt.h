@@ -26,7 +26,17 @@ typedef struct __PHONE_BOOK_DETAIL {
     char zip[5];
 } detail;
 
+typedef struct _mpool {
+    char *head;
+    char *next;
+    char *tail;
+} mpool;
+
 entry *findName(char lastName[], entry *pHead);
-entry *append(char lastName[], entry *e);
+entry *append(char lastName[], entry *e, mpool *pool);
+
+mpool *pool_create(size_t s);
+void *pool_alloc(mpool *p, size_t size);
+void pool_free(mpool *p);
 
 #endif

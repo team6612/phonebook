@@ -42,9 +42,17 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+#ifdef OPT
+    mpool *pool = pool_create(sizeof(entry) * 400000);
+#endif
+
     /* build the entry */
     entry *pHead, *e;
+#ifdef OPT
+    pHead = (entry *) pool_alloc(pool, sizeof(entry));
+#else
     pHead = (entry *) malloc(sizeof(entry));
+#endif
     printf("size of entry : %lu bytes\n", sizeof(entry));
     e = pHead;
     e->pNext = NULL;
@@ -58,7 +66,11 @@ int main(int argc, char *argv[])
             i++;
         line[i - 1] = '\0';
         i = 0;
+#ifdef OPT
+        e = append(line, e, pool);
+#else
         e = append(line, e);
+#endif
     }
     clock_gettime(CLOCK_REALTIME, &end);
     cpu_time1 = diff_in_second(start, end);
@@ -92,8 +104,12 @@ int main(int argc, char *argv[])
     printf("execution time of append() : %lf sec\n", cpu_time1);
     printf("execution time of findName() : %lf sec\n", cpu_time2);
 
+#ifdef OPT
+    pool_free(pool);
+#else
     if (pHead->pNext) free(pHead->pNext);
     free(pHead);
+#endif
 
     return 0;
 }
