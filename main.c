@@ -12,7 +12,7 @@
 #define OUT_FILE "orig.txt"
 #endif
 
-#define DICT_FILE "./dictionary/words.txt"
+#define DICT_FILE "./dictionary/words-short.txt"
 
 static double diff_in_second(struct timespec t1, struct timespec t2)
 {
@@ -72,8 +72,7 @@ int main(int argc, char *argv[])
     char input[MAX_LAST_NAME_SIZE] = "zyxel";
     e = pHead;
 
-    assert(findName(input, e) &&
-           "Did you implement findName() in " IMPL "?");
+    assert(findName(input, e) && "Did you implement findName() in " IMPL "?");
     assert(0 == strcmp(findName(input, e)->lastName, "zyxel"));
 
 #if defined(__GNUC__)

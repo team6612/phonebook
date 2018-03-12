@@ -1,11 +1,12 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "phonebook_opt.h"
 
 /* TODO: FILL YOUR OWN IMPLEMENTATION HERE! */
 entry *findName(char lastName[], entry *pHead)
 {
-    /* TODO: implement */
+    /* TODO: improve search algro */
     while (pHead != NULL) {
         if (strcasecmp(lastName, pHead->lastName) == 0)
             return pHead;
@@ -16,7 +17,7 @@ entry *findName(char lastName[], entry *pHead)
 
 entry *append(char lastName[], entry *e)
 {
-    /* TODO: implement */
+    /* TODO: improve append algro */
     /* allocate memory for the new entry and put lastName */
     e->pNext = (entry *) malloc(sizeof(entry));
     e = e->pNext;
